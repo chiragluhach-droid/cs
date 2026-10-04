@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { requireUser, bad } from "@/lib/auth";
-import { quote, razorpayEnabled, createRazorpayOrder } from "@/lib/billing";
+import { quote, razorpayEnabled, paymentsEnabled, createRazorpayOrder } from "@/lib/billing";
 import Payment from "@/models/Payment";
 
 export async function POST(req) {
@@ -10,6 +10,14 @@ export async function POST(req) {
   const { plan, currency, coupon } = await req.json().catch(() => ({}));
   let q;
   try { q = await quote(plan, currency, coupon); } catch (e) { return bad(e.message); }
+
+  // Free early access: record a ₹0 "payment" so the subscription flow stays the same
+  if (!paymentsEnabled()) {
+    const payment = await Payment.create({
+      user: user._id, plan: q.plan.id, currency: q.currency, amount: 0, listPrice: q.listPrice, discount: q.listPrice, provider: "free",
+    });
+    return NextResponse.json({ mode: "free", paymentId: payment._id, amount: 0, currency: q.currency });
+  }
 
   const payment = await Payment.create({
     user: user._id, plan: q.plan.id, currency: q.currency, amount: q.amount, listPrice: q.listPrice,

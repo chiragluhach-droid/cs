@@ -9,7 +9,7 @@ const PaymentSchema = new mongoose.Schema(
     listPrice: Number,
     discount: { type: Number, default: 0 },
     coupon: String,
-    provider: { type: String, enum: ["razorpay", "test"], default: "test" },
+    provider: { type: String, enum: ["razorpay", "test", "free"], default: "test" },
     orderId: String,
     paymentId: String,
     status: { type: String, enum: ["created", "paid", "failed"], default: "created", index: true },

@@ -1,6 +1,6 @@
 import { NextResponse, after } from "next/server";
 import { requireUser, bad } from "@/lib/auth";
-import { fulfill, queueFirstPlan, verifyRazorpaySignature, razorpayEnabled } from "@/lib/billing";
+import { fulfill, queueFirstPlan, verifyRazorpaySignature, razorpayEnabled, paymentsEnabled } from "@/lib/billing";
 import Payment from "@/models/Payment";
 
 export async function POST(req) {
@@ -10,7 +10,10 @@ export async function POST(req) {
   const payment = await Payment.findOne({ _id: b.paymentId, user: user._id });
   if (!payment) return bad("Payment not found", 404);
 
-  if (payment.provider === "razorpay") {
+  if (payment.provider === "free") {
+    if (paymentsEnabled()) return bad("Free access has ended. Please choose a paid plan.");
+    payment.paymentId = "free_" + Date.now();
+  } else if (payment.provider === "razorpay") {
     if (!verifyRazorpaySignature(payment.orderId, b.razorpay_payment_id, b.razorpay_signature)) {
       payment.status = "failed";
       await payment.save();
