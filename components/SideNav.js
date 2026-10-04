@@ -4,7 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import Logo from "./Logo";
 
 // Desktop: left sidebar. Mobile: sticky top bar + bottom tab bar.
-export default function SideNav({ items, footer, mobileExtra, home = "/" }) {
+export default function SideNav({ items, footer, mobileExtra, profileHref, home = "/" }) {
   const path = usePathname();
   const router = useRouter();
   const logout = async () => {
@@ -26,6 +26,11 @@ export default function SideNav({ items, footer, mobileExtra, home = "/" }) {
         ))}
         <div className="side-foot">
           {footer}
+          {profileHref && (
+            <Link href={profileHref} className={`nav ${path === profileHref ? "on" : ""}`}>
+              <span className="em">🙋</span><span>profile</span>
+            </Link>
+          )}
           <button onClick={logout} className="btn ghost sm" style={{ justifyContent: "flex-start" }}>↩ log out</button>
         </div>
       </aside>
@@ -34,6 +39,9 @@ export default function SideNav({ items, footer, mobileExtra, home = "/" }) {
         <Logo href={home} size={26} />
         <div className="row" style={{ gap: 8 }}>
           {mobileExtra}
+          {profileHref && (
+            <Link href={profileHref} className="icon-btn" aria-label="Profile" style={path === profileHref ? { background: "var(--lime)" } : undefined}>🙋</Link>
+          )}
           <button onClick={logout} className="icon-btn" aria-label="Log out">↩</button>
         </div>
       </header>

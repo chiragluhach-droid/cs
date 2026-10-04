@@ -150,9 +150,9 @@ export default async function ClientPage({ params, searchParams }) {
               <div className="eyebrow">plans</div>
               {!pending && (
                 <div className="row wrapflex">
-                  <ActionButton url={`/api/admin/users/${id}/plan`} body={{ mode: "generate" }} className="btn sm lime" onDone={(j, r) => r.push(`/admin/users/${id}?plan=${j.id}`)}>⚡ generate draft</ActionButton>
-                  {live && <ActionButton url={`/api/admin/users/${id}/plan`} body={{ mode: "clone" }} className="btn sm ghost" style={{ border: "var(--line)" }} onDone={(j, r) => r.push(`/admin/users/${id}?plan=${j.id}`)}>⧉ copy live plan & edit</ActionButton>}
-                  <ActionButton url={`/api/admin/users/${id}/plan`} body={{ mode: "manual" }} className="btn sm ghost" style={{ border: "var(--line)" }} onDone={(j, r) => r.push(`/admin/users/${id}?plan=${j.id}`)}>✍️ write by hand</ActionButton>
+                  <ActionButton url={`/api/admin/users/${id}/plan`} body={{ mode: "generate" }} className="btn sm lime" goToPlan={`/admin/users/${id}?plan=`}>⚡ generate draft</ActionButton>
+                  {live && <ActionButton url={`/api/admin/users/${id}/plan`} body={{ mode: "clone" }} className="btn sm ghost" style={{ border: "var(--line)" }} goToPlan={`/admin/users/${id}?plan=`}>⧉ copy live plan & edit</ActionButton>}
+                  <ActionButton url={`/api/admin/users/${id}/plan`} body={{ mode: "manual" }} className="btn sm ghost" style={{ border: "var(--line)" }} goToPlan={`/admin/users/${id}?plan=`}>✍️ write by hand</ActionButton>
                 </div>
               )}
             </div>

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 // Small button that calls an API then refreshes the page
-export function ActionButton({ url, method = "POST", body, children, className = "btn sm", confirm: confirmMsg, onDone, style }) {
+export function ActionButton({ url, method = "POST", body, children, className = "btn sm", confirm: confirmMsg, goToPlan, style }) {
   const router = useRouter();
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
@@ -14,7 +14,8 @@ export function ActionButton({ url, method = "POST", body, children, className =
     const j = await r.json().catch(() => ({}));
     setBusy(false);
     if (!r.ok) return setErr(j.error || "failed");
-    onDone ? onDone(j, router) : router.refresh();
+    // goToPlan is a URL prefix (serialisable, unlike a callback) that gets the new plan id appended
+    goToPlan ? router.push(goToPlan + j.id) : router.refresh();
   };
   return (
     <span style={{ display: "inline-flex", flexDirection: "column", gap: 4 }}>

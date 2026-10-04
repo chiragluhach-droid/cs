@@ -37,8 +37,8 @@ export default function Checkout({ name, live, renewing, free }) {
 
   const verify = async (body) => {
     const r = await fetch("/api/checkout/verify", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
-    const j = await r.json();
-    if (!r.ok) { setBusy(false); return setErr(j.error); }
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok) { setBusy(false); return setErr(j.error || "something went wrong, try again"); }
     setDone(true);
     for (let k = 0; k < 4; k++) setTimeout(() => burst(Math.random() * innerWidth, Math.random() * innerHeight * 0.6), k * 200);
     setTimeout(() => { router.push("/dashboard"); router.refresh(); }, 2600);
@@ -47,8 +47,8 @@ export default function Checkout({ name, live, renewing, free }) {
   const pay = async () => {
     setBusy(true); setErr("");
     const r = await fetch("/api/checkout", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ plan, currency: cur, coupon: applied?.code }) });
-    const j = await r.json();
-    if (!r.ok) { setBusy(false); return setErr(j.error); }
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok) { setBusy(false); return setErr(j.error || "something went wrong, try again"); }
     if (j.mode === "test" || j.mode === "free") return verify({ paymentId: j.paymentId });
     const rzp = new window.Razorpay({
       key: j.keyId, order_id: j.orderId, amount: j.amount, currency: j.currency, name: "KHAO", description: PLANS[plan].label,

@@ -19,6 +19,7 @@ export default async function DashLayout({ children }) {
     <div className="shell">
       <SideNav
         home="/dashboard"
+        profileHref="/dashboard/profile"
         mobileExtra={daysLeft != null && (
           <a href="/checkout" className="chip" style={{ background: daysLeft <= 7 ? "var(--orange)" : "var(--butter)", padding: "5px 10px", fontSize: 11 }}>
             {daysLeft}d left
