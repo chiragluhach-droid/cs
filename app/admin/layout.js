@@ -13,6 +13,7 @@ export default async function AdminLayout({ children }) {
   return (
     <div className="shell">
       <SideNav
+        home="/admin"
         items={[
           ["/admin", "📊", "overview", alerts],
           ["/admin/reviews", "🧾", "plan reviews", reviews],

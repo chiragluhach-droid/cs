@@ -18,9 +18,15 @@ export default async function DashLayout({ children }) {
   return (
     <div className="shell">
       <SideNav
+        home="/dashboard"
+        mobileExtra={daysLeft != null && (
+          <a href="/checkout" className="chip" style={{ background: daysLeft <= 7 ? "var(--orange)" : "var(--butter)", padding: "5px 10px", fontSize: 11 }}>
+            {daysLeft}d left
+          </a>
+        )}
         items={[
           ["/dashboard", "🍽️", "today"],
-          ["/dashboard/plan", "📋", "my plan"],
+          ["/dashboard/plan", "📋", "plan"],
           ["/dashboard/workout", "🏋️", "workout"],
           ["/dashboard/progress", "📈", "progress"],
           ["/dashboard/inbox", "💬", "coach", unread],

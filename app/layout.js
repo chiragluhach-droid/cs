@@ -12,9 +12,16 @@ export const metadata = {
   description: "A personal diet and workout plan built around the Indian food you already eat. Made and checked by your coach, updated as your body changes.",
 };
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#f4efe4",
+};
+
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${display.variable} ${serif.variable} ${mono.variable} ${body.variable}`}>
+    <html lang="en" className={`${display.variable} ${serif.variable} ${mono.variable} ${body.variable}`} data-scroll-behavior="smooth">
       <body>
         {children}
         <div className="grain" aria-hidden />

@@ -12,7 +12,7 @@ function Ring({ value, max, label, color, unit }) {
   const pct = Math.min(1, max ? value / max : 0);
   const C = 2 * Math.PI * 42;
   return (
-    <div className="card" style={{ padding: 16, display: "flex", alignItems: "center", gap: 14 }}>
+    <div className="card ring" style={{ padding: 16, display: "flex", alignItems: "center", gap: 14 }}>
       <svg width="96" height="96" viewBox="0 0 100 100">
         <circle cx="50" cy="50" r="42" fill="none" stroke="#e8e1cf" strokeWidth="12" />
         <circle cx="50" cy="50" r="42" fill="none" stroke={color} strokeWidth="12" strokeDasharray={`${C * pct} ${C}`} strokeLinecap="round" transform="rotate(-90 50 50)" style={{ transition: "stroke-dasharray .6s cubic-bezier(.2,.8,.2,1)" }} />
@@ -83,7 +83,7 @@ export default function Today({ name, coach, date, day, targets, log: initial, s
             {greet()}, <span className="serif">{name}</span> ✌️
           </h1>
         </div>
-        <div className="row">
+        <div className="row wrapflex" style={{ gap: 8 }}>
           <span className="chip" style={{ background: streak ? "var(--orange)" : "#fffdf7", fontSize: 14 }}>🔥 {streak} day streak</span>
           <span className="chip" style={{ background: "var(--lime)", fontSize: 14 }}>{doneCount}/{meals.length} meals</span>
         </div>
@@ -100,8 +100,8 @@ export default function Today({ name, coach, date, day, targets, log: initial, s
         </div>
       )}
 
-      <div className="grid g3" style={{ marginTop: 24 }}>
-        <Ring value={eaten.kcal} max={targets.calories} label="calories eaten" color="var(--orange)" unit="" />
+      <div className="grid g3 rings" style={{ marginTop: 24 }}>
+        <Ring value={eaten.kcal} max={targets.calories} label="calories" color="var(--orange)" unit="" />
         <Ring value={eaten.protein} max={targets.protein} label="protein" color="var(--pink)" unit="g" />
         <Ring value={log.steps || 0} max={targets.steps} label="steps" color="var(--sky)" unit="" />
       </div>

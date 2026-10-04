@@ -35,7 +35,7 @@ export default function PlanView({ plan, today, coach, stage }) {
       </div>
       <div className="mono" style={{ marginTop: 12, fontSize: 13 }}>💧 {t.water / 1000}L water · 👟 {t.steps.toLocaleString("en-IN")} steps daily</div>
 
-      <div className="row wrapflex" style={{ marginTop: 34, gap: 8 }}>
+      <div className="row wrapflex hscroll" style={{ marginTop: 34, gap: 8 }}>
         {plan.diet.map((x, k) => (
           <button key={x.day} onClick={() => setD(k)} className={`btn sm ${k === d ? "" : "ghost"}`} style={{ border: "var(--line)" }}>
             {x.day}{k === today ? " •" : ""}
